@@ -1,0 +1,31 @@
+<% @news_articles.each do |news_article| %>
+  <div class= "card">
+    <% if logged_in?(:editor) || logged_in?(:admin) %>
+        <h2 class="news-article-title"><%= link_to news_article.title.upcase, news_article %></h2>
+        <p class="muted">
+          <%= news_article.categories_id %>
+        </p>
+        <p>
+          <%= news_article.body %>
+        </p>
+        <div><%= link_to 'Show', news_article %></div>
+        <div><%= link_to 'Edit', edit_news_article_path(news_article) %></div>
+        <div><%= link_to 'Destroy', news_article, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+    <% else %>
+        <h2 class="news-article-title"><%= link_to news_article.title.upcase, news_article %></h2>
+        <p class="muted">
+          <%= news_article.categories_id %>
+        </p>
+        <p>
+          <%= news_article.body %>
+        </p>
+        <div>
+          <%= link_to 'Show', news_article %>
+        </div>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="card-link">
+
+</div>

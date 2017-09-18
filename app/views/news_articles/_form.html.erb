@@ -1,0 +1,36 @@
+<%= form_with(model: news_article, local: true) do |form| %>
+  <% if news_article.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(news_article.errors.count, "error") %> prohibited this news_article from being saved:</h2>
+
+      <ul>
+      <% news_article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.text_field :title, class: 'form-control', placeholder: "Title" %>
+  </div>
+
+  <%= form.hidden_field :users_id, :value => current_user.id %>
+
+  <div class="form-group">
+    <%= form.label :categories_id %>
+    <%= form.collection_select(:categories_id, Category.all, :id, :title,
+                                {
+                                  include_blank: false
+                                  },
+                                  class: 'form-control'
+                                ) %>
+
+  <div class="form-group">
+    <%= form.text_area :body, class: 'form-control', rows: 15, placeholder: "Content" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

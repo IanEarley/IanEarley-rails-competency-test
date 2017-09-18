@@ -1,0 +1,11 @@
+<h1><%= @category.title %></h1>
+
+<% @news_articles.each do |article| %>
+  <% if article.categories_id == @category.id %>
+    <div>
+      <p><h2><%=link_to article.title, article %></h2> <strong>Published:</strong> <%= time_ago_in_words(article.created_at) %> ago. </p>
+      <p><%= article.body %>
+    </div>
+  <% end %>
+<% end %>
+<%= link_to "Back", root_path %>

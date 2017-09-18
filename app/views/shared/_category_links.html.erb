@@ -1,0 +1,7 @@
+<% if @category %>
+  <% @category.each do |category| %>
+    <li>
+      <%= link_to category.title, category %>
+    </li>
+  <% end %>
+<% end %>

@@ -1,0 +1,3 @@
+<% if logged_in?(:admin) %>
+  <%= link_to "View All Users", pages_admin_dash_path, class: "nav-link" %>
+<% end %>

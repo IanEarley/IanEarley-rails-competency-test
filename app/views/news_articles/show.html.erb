@@ -1,0 +1,11 @@
+<h2><%= @news_article.title %></h2>
+
+<p>
+  <%= @news_article.body %>
+</p>
+<% if logged_in?(:admin) || (logged_in?(:editor) && @news_article.users_id == current_user.id ) %>
+  <%= link_to 'Edit', edit_news_article_path(@news_article) if @news_article.users_id == current_user.id %>
+  <%= link_to 'Delete', @news_article, method: :delete, data: {confirm: 'Are you sure you want to delete this article?'} %>
+<% end %>
+<%= link_to 'Back', news_articles_path %>
+

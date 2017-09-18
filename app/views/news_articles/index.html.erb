@@ -1,0 +1,24 @@
+<%= render partial: 'shared/nav' %>
+
+<div class="container">
+  <div class = "card-container">
+    <% @category.each do |category| %>
+      <% count = 0 %>
+      <h1><%=link_to category.title, category %></h1>
+
+      <% @news_articles.each do |article| %>
+        <% if article.categories_id == category.id && count < 3%>
+          <div>
+            <h3><%=link_to article.title, article %></h3>
+            <strong>Published:</strong> <%= time_ago_in_words(article.created_at) %> ago. </p>
+          </div>
+
+          <div>
+            <%= article.body %>
+          </div>
+          <% count += 1 %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
