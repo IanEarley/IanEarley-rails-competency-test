@@ -21,9 +21,11 @@
           <% end %>
           <% if logged_in?(:user) || logged_in?(:editor) || logged_in?(:admin) %>
             <div> <%=link_to "Sign Out", destroy_user_session_path,  method: :delete, class: 'nav-link' %>
+            </div>
           <% else %>
-            <div> <%=link_to "Log In", new_user_session_path, class: 'nav-link' %>
-            <div> <%=link_to "Register", new_user_registration_path, class: 'nav-link' %>
+            <div> 
+              <%=link_to "Log In", new_user_session_path, class: 'nav-link' %>
+            </div>
           <% end %>
         </li>
       </ul>
