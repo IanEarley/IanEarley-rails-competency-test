@@ -1,2 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+.carousel-inner > .item > img {
+  width:100em;
+  height:360px;
+}

@@ -8,9 +8,11 @@ class NewsArticlesController < ApplicationController
 
   # GET /news_articles
   def index
-    @news_articles = NewsArticle.order("categories_id DESC")
+    @news_articles = NewsArticle.order("created_at DESC")
 
     @category = Category.all
+
+    @images = ['news_image_one.jpg', 'politics.jpg', 'italyworldcup.jpg']
   end
 
   # GET /news_articles/1

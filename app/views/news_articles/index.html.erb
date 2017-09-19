@@ -1,24 +1,64 @@
 <%= render partial: 'shared/nav' %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="carousel slide" id="carousel">
+      <ol class="carousel-indicators">
+        <li class="active" data-slide-to="0" data-target="#carousel">
+        </li>
+        <li data-slide-to="1" data-target="#carousel">
+        </li>
+        <li data-slide-to="2" data-target="#carousel">
+        </li>
+      </ol>
+      <div class="carousel-inner">
+        <% count = 0 %>
+        <% @news_articles.each do |article| %>
+          <% if count < 3 %>
+            <% if count < 1 %>
+              <div class="item active">
+            <% else %>
+              <div class="item">
+            <% end %>
+              <%= image_tag @images[count], alt: "Carousel Image" %>
+              <div class="carousel-caption">
+                <h4>
+                  <%= link_to article.title, article, {style: "text-decoration: none; color: white" } %>
+                </h4>
+                <p>
+                  <%= article.body %>
+                </p>
+              </div>
+            </div>
+            <% count += 1 %>
+          <% end %>
+        <% end %>
+        </div> <a class="left carousel-control" href="#carousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+      </div>
+    </div>
+  </div>
+</div>
 
-<div class="container">
+<div class="container card">
   <div class = "card-container">
     <% @category.each do |category| %>
       <% count = 0 %>
       <h1><%=link_to category.title, category %></h1>
 
-      <% @news_articles.each do |article| %>
-        <% if article.categories_id == category.id && count < 3%>
-          <div>
-            <h3><%=link_to article.title, article %></h3>
-            <strong>Published:</strong> <%= time_ago_in_words(article.created_at) %> ago. </p>
-          </div>
-
-          <div>
-            <%= article.body %>
-          </div>
-          <% count += 1 %>
+      <div class="col-md-3">
+        <% @news_articles.each do |article| %>
+          <% if article.categories_id == category.id && count < 3%>
+              <div class="card">
+                <h3><%=link_to article.title, article %></h3>
+                <p>
+                  <strong>Published:</strong> <%= time_ago_in_words(article.created_at) %> ago.
+                <p>
+                  <%= article.body %>
+                </p>
+              </div>
+            <% count += 1 %>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     <% end %>
   </div>
 </div>

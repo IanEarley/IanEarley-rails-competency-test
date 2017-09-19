@@ -2,15 +2,12 @@
   <div class="row">
     <div class="col-md-12">
       <ul class="nav nav-tabs">
-        <li class="">
+        <li class="siteName nav-tabs">
           <%= link_to "The Imperial Enquirer", root_path, class: 'Logo' %>
         </li>
           <%= render partial: 'shared/category_links' %>
         <li class="pull-right">
           <% if logged_in?(:admin) %>
-            <div>
-              <%= link_to 'New News Article', new_news_article_path %>
-            </div>
             <div>
               <%= render partial: "news_articles/admin_actions" %>
             </div>
