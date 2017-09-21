@@ -1,10 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show]
-    access all: [:index, :show, :new, :edit, :create, :update, :destroy], 
-        guest: {except: [:show, :new, :edit, :create, :update, :destroy]}, 
-        user: {except: [:new, :edit, :create, :update, :destroy]},
-        editor: :all,
-        admin: :all
+    access user: :all, editor: :all, admin: :all
 
   def index
     @categories = Category.all

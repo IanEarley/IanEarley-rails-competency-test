@@ -1,10 +1,6 @@
 class NewsArticlesController < ApplicationController
   before_action :set_news_article, only: [:show, :edit, :update, :destroy]
-  access all: [:index, :show, :new, :edit, :create, :update, :destroy], 
-        guest: {except: [:show, :new, :edit, :create, :update, :destroy]}, 
-        user: {except: [:new, :edit, :create, :update, :destroy]},
-        editor: :all,
-        admin: :all
+  access all: [:index], user: [:show], editor: :all, admin: [:show, :destroy] 
 
   # GET /news_articles
   def index
@@ -17,20 +13,12 @@ class NewsArticlesController < ApplicationController
 
   # GET /news_articles/1
   def show
-    if logged_in?(:user) || logged_in?(:editor) || logged_in?(:admin)
-      @news_article = NewsArticle.find(params[:id])
-    else
-      redirect_to new_user_registration_path, notice: "Register now to view this article!"
-    end
+    @news_article = NewsArticle.find(params[:id])
   end
 
   # GET /news_articles/new
   def new
-    if logged_in?(:editor) || logged_in?(:admin)
-      @news_article = NewsArticle.new
-    else
-      redirect_to new_user_registration_path, notice: "Register now to view this article!"
-    end
+    @news_article = NewsArticle.new
   end
 
   # GET /news_articles/1/edit
@@ -39,24 +27,18 @@ class NewsArticlesController < ApplicationController
 
   # POST /news_articles
   def create
-    if logged_in?(:editor) || logged_in?(:admin)
-      @news_article = NewsArticle.new(news_article_params)
-
-      @user = current_user
-
-      if @news_article.save
-        redirect_to @news_article, notice: 'News article was successfully created.'
-      else
-        render :new
-      end
+    @news_article = NewsArticle.new(news_article_params)
+    @user = current_user
+    if @news_article.save
+      redirect_to @news_article, notice: 'News article was successfully created.'
     else
-      redirect_to root_path, notice: "You are not authorized to perform this action..."
+      render :new
     end
   end
 
   # PATCH/PUT /news_articles/1
   def update
-    if logged_in?(:editor) || logged_in?(:admin)
+    if current_user.id == @news_article.users_id
       if @news_article.update(news_article_params)
         redirect_to @news_article, notice: 'News article was successfully updated.'
       else
@@ -69,7 +51,7 @@ class NewsArticlesController < ApplicationController
 
   # DELETE /news_articles/1
   def destroy
-    if logged_in?(:editor) || logged_in?(:admin)
+    if current_user.id == @news_article.users_id
       @news_article.destroy
       redirect_to news_articles_url, notice: 'News article was successfully destroyed.'
     else

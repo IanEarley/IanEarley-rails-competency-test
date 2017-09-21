@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  access admin: :all
+  
   def edit
     set_user
     @roles = ['user', 'editor', 'admin']
@@ -6,14 +8,10 @@ class UsersController < ApplicationController
 
   def update
     set_user
-    if logged_in?(:admin)
-      if @user.update(user_params)
-        redirect_to pages_admin_dash_url, notice: 'User was succefully updated.'
-      else
-        render :edit
-      end
+    if @user.update(user_params)
+      redirect_to pages_admin_dash_url, notice: 'User was succefully updated.'
     else
-      redirect_to root_path, notice: "You are not authorized to perform this action..."
+      render :edit
     end
   end
 
