@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show]
-    access user: :all, editor: :all, admin: :all
+    access all: :all
 
   def index
     @categories = Category.all
