@@ -1,5 +1,5 @@
 class NewsArticlesController < ApplicationController
-  before_action :set_news_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_scoped_article, only: [:edit, :update, :destroy]
   access all: [:index], user: [:show], editor: :all, admin: [:show, :destroy] 
 
   # GET /news_articles
@@ -38,31 +38,23 @@ class NewsArticlesController < ApplicationController
 
   # PATCH/PUT /news_articles/1
   def update
-    if current_user.id == @news_article.users_id
-      if @news_article.update(news_article_params)
-        redirect_to @news_article, notice: 'News article was successfully updated.'
-      else
-        render :edit
-      end
+    if @news_article.update(news_article_params)
+      redirect_to @news_article, notice: 'News article was successfully updated.'
     else
-      redirect_to root_path, notice: "You are not authorized to perform this action..."
+      render :edit
     end
   end
 
   # DELETE /news_articles/1
   def destroy
-    if current_user.id == @news_article.users_id
-      @news_article.destroy
-      redirect_to news_articles_url, notice: 'News article was successfully destroyed.'
-    else
-      redirect_to root_path, notice: "You are not authorized to perform this action..."
-    end
+    @news_article.destroy
+    redirect_to news_articles_url, notice: 'News article was successfully destroyed.'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_news_article
-      @news_article = NewsArticle.find(params[:id])
+    def set_scoped_article
+      @news_article = NewsArticle.where(users_id: current_user.id).find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
